@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroTech - Registro de Bordo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold text-center mb-6">AstroTech - Registro de Bordo</h1>
+
+        <!-- Formulário para adicionar registros -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Adicionar Novo Registro</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nome do Colaborador</label>
+                    <input type="text" id="nome" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Ex: João Silva" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Rota Desempenhada</label>
+                    <input type="text" id="rota" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Ex: Rota A" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Hora de Início</label>
+                    <input type="time" id="horaInicio" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Hora de Término</label>
+                    <input type="time" id="horaTermino" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700">Observações</label>
+                    <textarea id="observacoes" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" rows="4" placeholder="Ex: Atraso no trânsito"></textarea>
+                </div>
+            </div>
+            <div class="mt-4 flex space-x-4">
+                <button onclick="salvarRegistro()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Salvar</button>
+                <button onclick="listarRegistros()" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">Ver Registros</button>
+            </div>
+        </div>
+<!-- Área para listar registros -->
+<div id="listaRegistros" class="bg-white p-6 rounded-lg shadow-md hidden">
+    <h2 class="text-xl font-semibold mb-4">Registros Salvos</h2>
+    <div id="registrosContent"></div>
+</div>
+</div>
+
+<script>
+// Banco de dados simulado (array)
+let registros = [];
+
+// Função para salvar um novo registro
+function salvarRegistro() {
+    const nome = document.getElementById('nome').value;
+    const rota = document.getElementById('rota').value;
+    const horaInicio = document.getElementById('horaInicio').value;
+    const horaTermino = document.getElementById('horaTermino').value;
+    const observacoes = document.getElementById('observacoes').value;
+
+    // Validação simples
+    if (!nome || !rota || !horaInicio || !horaTermino) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+
+    const registro = {
+        nome: nome,
+        rota: rota,
+        horaInicio: horaInicio,
+        horaTermino: horaTermino,
+        observacoes: observacoes,
+        dataCriacao: new Date().toLocaleString('pt-BR')
+    };
+    registros.push(registro);
+
+    alert(Registro de ${nome} salvo com sucesso!);
+
+    // Limpar formulário
+    document.getElementById('nome').value = '';
+    document.getElementById('rota').value = '';
+    document.getElementById('horaInicio').value = '';
+    document.getElementById('horaTermino').value = '';
+    document.getElementById('observacoes').value = '';
+}
+// Função para listar todos os registros
+function listarRegistros() {
+            const listaRegistros = document.getElementById('listaRegistros');
+            const registrosContent = document.getElementById('registrosContent');
+
+            if (registros.length === 0) {
+                registrosContent.innerHTML = '<p class="text-gray-600">Nenhum registro encontrado.</p>';
+                listaRegistros.classList.remove('hidden');
+                return;
+            }
+
+            let html = '<div class="grid gap-4">';
+            registros.forEach((registro, index) => {
+                html += `
+                    <div class="border p-4 rounded-md">
+                        <h3 class="font-semibold">Registro ${index + 1}</h3>
+                        <p><strong>Nome:</strong> ${registro.nome}</p>
+                        <p><strong>Rota:</strong> ${registro.rota}</p>
+                        <p><strong>Hora de Início:</strong> ${registro.horaInicio}</p>
+                        <p><strong>Hora de Término:</strong> ${registro.horaTermino}</p>
+                        <p><strong>Observações:</strong> ${registro.observacoes || 'Nenhuma'}</p>
+                        <p><strong>Data de Criação:</strong> ${registro.dataCriacao}</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            registrosContent.innerHTML = html;
+            listaRegistros.classList.remove('hidden');
+        }
+
+        // Função para calcular horas trabalhadas (FEATURE FUTURA)
+        function calcularHorasTrabalhadas(horaInicio, horaTermino) {
+            // Implementação futura
+            /*
+            const inicio = new Date(1970-01-01T${horaInicio}:00);
+            const termino = new Date(1970-01-01T${horaTermino}:00);
+            const diffMs = termino - inicio;
+            const horas = diffMs / (1000 * 60 * 60);
+            return horas;
+            */
+            console.log("Funcionalidade de cálculo de horas ainda não implementada.");
+        }
+
+        // Função para verificar horas extras (FEATURE FUTURA)
+        function verificarHorasExtras(horasTrabalhadas) {
+            // Implementação futura
+            /*
+            const jornadaPadrao = 8; // Supondo 8 horas como jornada padrão
+            if (horasTrabalhadas > jornadaPadrao) {
+                return Horas extras: ${horasTrabalhadas - jornadaPadrao} horas;
+            }
+            return "Sem horas extras.";
+            */
+            console.log("Funcionalidade de verificação de horas extras ainda não implementada.");
+        }
+    </script>
+</body>
+</html>
