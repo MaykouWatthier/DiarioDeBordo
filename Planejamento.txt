@@ -1,0 +1,10 @@
+O projeto é uma aplicação web simples para a AstroTech gerenciar registros de colaboradores. Inclui:
+
+Funcionalidades:
+Formulário para registrar nome, rota, hora de início, hora de término e observações.
+Botões para salvar registros e visualizar a lista de registros salvos.
+Dados armazenados em um array (banco de dados simulado).
+
+Features Futuras (não implementadas):
+Cálculo de horas trabalhadas.
+Verificação de horas extras.
