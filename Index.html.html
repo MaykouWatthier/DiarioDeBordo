@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AstroTech - Registro de Bordo</title>
+    <title>AstroTech - Gerenciamento de Colaboradores</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans">
     <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold text-center mb-6">AstroTech - Registro de Bordo</h1>
+        <h1 class="text-3xl font-bold text-center mb-6">AstroTech - Registro de Colaboradores</h1>
 
         <!-- Formulário para adicionar registros -->
         <div class="bg-white p-6 rounded-lg shadow-md mb-6">
@@ -39,53 +39,64 @@
                 <button onclick="salvarRegistro()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Salvar</button>
                 <button onclick="listarRegistros()" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">Ver Registros</button>
             </div>
-        </div>
-<!-- Área para listar registros -->
-<div id="listaRegistros" class="bg-white p-6 rounded-lg shadow-md hidden">
-    <h2 class="text-xl font-semibold mb-4">Registros Salvos</h2>
-    <div id="registrosContent"></div>
-</div>
-</div>
+        </div>
 
-<script>
-// Banco de dados simulado (array)
-let registros = [];
+        <!-- Área para listar registros -->
+        <div id="listaRegistros" class="bg-white p-6 rounded-lg shadow-md hidden">
+            <h2 class="text-xl font-semibold mb-4">Registros Salvos</h2>
+            <div id="registrosContent"></div>
+        </div>
+    </div>
 
-// Função para salvar um novo registro
-function salvarRegistro() {
-    const nome = document.getElementById('nome').value;
-    const rota = document.getElementById('rota').value;
-    const horaInicio = document.getElementById('horaInicio').value;
-    const horaTermino = document.getElementById('horaTermino').value;
-    const observacoes = document.getElementById('observacoes').value;
+    <script>
+        // Banco de dados simulado (array)
+        let registros = [];
 
-    // Validação simples
-    if (!nome || !rota || !horaInicio || !horaTermino) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
-        return;
-    }
+        // Função para salvar um novo registro
+        function salvarRegistro() {
+            const nome = document.getElementById('nome').value;
+            const rota = document.getElementById('rota').value;
+            const horaInicio = document.getElementById('horaInicio').value;
+            const horaTermino = document.getElementById('horaTermino').value;
+            const observacoes = document.getElementById('observacoes').value;
 
-    const registro = {
-        nome: nome,
-        rota: rota,
-        horaInicio: horaInicio,
-        horaTermino: horaTermino,
-        observacoes: observacoes,
-        dataCriacao: new Date().toLocaleString('pt-BR')
-    };
-    registros.push(registro);
+            // Validação simples
+            if (!nome || !rota || !horaInicio || !horaTermino) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
 
-    alert(Registro de ${nome} salvo com sucesso!);
+            const registro = {
+                nome: nome,
+                rota: rota,
+                horaInicio: horaInicio,
+                horaTermino: horaTermino,
+                observacoes: observacoes,
+                dataCriacao: new Date().toLocaleString('pt-BR')
+            };
+            registros.push(registro);
 
-    // Limpar formulário
-    document.getElementById('nome').value = '';
-    document.getElementById('rota').value = '';
-    document.getElementById('horaInicio').value = '';
-    document.getElementById('horaTermino').value = '';
-    document.getElementById('observacoes').value = '';
-}
-// Função para listar todos os registros
-function listarRegistros() {
+            alert(Registro de ${nome} salvo com sucesso!);
+
+            // Limpar formulário
+            document.getElementById('nome').value = '';
+            document.getElementById('rota').value = '';
+            document.getElementById('horaInicio').value = '';
+            document.getElementById('horaTermino').value = '';
+            document.getElementById('observacoes').value = '';
+        }
+
+        // Função para excluir um registro
+        function excluirRegistro(index) {
+            if (confirm(Tem certeza que deseja excluir o registro de ${registros[index].nome}?)) {
+                registros.splice(index, 1);
+                alert('Registro excluído com sucesso!');
+                listarRegistros(); // Atualizar a lista após exclusão
+            }
+        }
+
+        // Função para listar todos os registros
+        function listarRegistros() {
             const listaRegistros = document.getElementById('listaRegistros');
             const registrosContent = document.getElementById('registrosContent');
 
@@ -99,7 +110,10 @@ function listarRegistros() {
             registros.forEach((registro, index) => {
                 html += `
                     <div class="border p-4 rounded-md">
-                        <h3 class="font-semibold">Registro ${index + 1}</h3>
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Registro ${index + 1}</h3>
+                            <button onclick="excluirRegistro(${index})" class="bg-red-600 text-white px-2 py-1 rounded-md hover:bg-red-700">Excluir</button>
+                        </div>
                         <p><strong>Nome:</strong> ${registro.nome}</p>
                         <p><strong>Rota:</strong> ${registro.rota}</p>
                         <p><strong>Hora de Início:</strong> ${registro.horaInicio}</p>
